@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+from prometheus_fastapi_instrumentator import Instrumentator
 
+app = FastAPI()
+Instrumentator().instrument(app).expose(app)
 
 @app.get("/")
 async def root():

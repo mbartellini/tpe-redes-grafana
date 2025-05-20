@@ -5,4 +5,22 @@ services:
         restart: unless-stopped
         ports:
         - '3000:3000'
+        networks:
+            - network
         
+    prometheus:
+        image: prom/prometheus
+        container_name: tpe-redes-prometheus
+        ports:
+            - 9090:9090
+        volumes:
+            - ./prometheus_data/prometheus.yml:/etc/prometheus/prometheus.yml
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+        networks:
+            - network
+
+networks:
+    network:
+        name: tpe-redes-network
+        external: true

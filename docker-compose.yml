@@ -1,8 +1,0 @@
-services:
-    api:
-        container_name: tpe-redes-api
-        image: tpe-redes-api-image
-        build:
-            context: ./api
-        ports:
-            - 80:80
