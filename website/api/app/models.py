@@ -1,7 +1,6 @@
 from sqlalchemy import Boolean, Column, Date, Float, Integer, String, Text
 from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from database import Base
 
 #User model
 class User(Base):
@@ -9,7 +8,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
-    email = Column(String, unique=True, index=True)
+    password = Column(String, nullable=False)
 
 #Media model
 class Media(Base):
