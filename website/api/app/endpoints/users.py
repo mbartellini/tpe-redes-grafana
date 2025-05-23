@@ -1,16 +1,14 @@
-from database import get_db
 from fastapi import APIRouter, Depends, HTTPException
-from models import User
-from schemas.forms import CreateUserForm
-from schemas.Out import UserOut
 from sqlalchemy.orm import Session
+from database import get_db
+from models import User
+from website.api.app.schemas.forms import CreateUserForm
 from utils import hash_password
 
 router = APIRouter()
 
-
 ## GET ##
-@router.get("/users/{userId}", response_model=UserOut)
+@router.get("/users/{userId}")
 def get_user(userId: int, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.id == userId).first()
     if user is None:
@@ -19,15 +17,16 @@ def get_user(userId: int, db: Session = Depends(get_db)):
 
 
 ## POST ##
-@router.post("/users/", response_model=UserOut)
+@router.post("/users/")
 def create_user(user: CreateUserForm, db: Session = Depends(get_db)):
     db_user = User(name=user.username, password=hash_password(user.password))
 
     existing_user = db.query(User).filter(User.name == user.username).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="User already exists")
-
+    
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
     return db_user
+
