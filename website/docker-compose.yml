@@ -8,6 +8,8 @@ services:
             - 80:80
         networks:
             - network
+        environment:
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     db:
         container_name: tpe-redes-db
         image: postgres
