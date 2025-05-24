@@ -2,7 +2,7 @@ from database import Base, SessionLocal, engine
 from fastapi import FastAPI
 from models import Media, User
 from prometheus_fastapi_instrumentator import Instrumentator
-from routers import media, session, users
+from routers import media, session, users, reviews
 
 Base.metadata.create_all(bind=engine, checkfirst=True)
 
@@ -13,3 +13,4 @@ Instrumentator().instrument(app).expose(app)
 app.include_router(users.router)
 app.include_router(media.router)
 app.include_router(session.router)
+app.include_router(reviews.router)

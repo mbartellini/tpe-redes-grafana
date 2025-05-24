@@ -14,3 +14,8 @@ class LoginForm(BaseModel):
     password: str = Field(..., min_length=8, max_length=20)
 
 ## REVIEWS ##
+#ge=0 means  greater than or equal to 0
+class ReviewForm(BaseModel):
+    userId: int = Field(..., ge=0)
+    mediaId: int = Field(..., ge=0)
+    content: str = Field(..., min_length=1, max_length=500)
