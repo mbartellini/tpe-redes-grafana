@@ -10,7 +10,7 @@ router = APIRouter()
 
 
 ## GET ##
-@router.get("/users/{userId}", response_model=UserOut)
+@router.get("/users/{userId}", response_model=UserOut, tags=["users"])
 def get_user(userId: int, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.id == userId).first()
     if user is None:
@@ -19,7 +19,7 @@ def get_user(userId: int, db: Session = Depends(get_db)):
 
 
 ## POST ##
-@router.post("/users/", response_model=UserOut)
+@router.post("/users/", response_model=UserOut, tags=["users"])
 def create_user(user: CreateUserForm, db: Session = Depends(get_db)):
     db_user = User(name=user.username, password=hash_password(user.password))
 

@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 ## POST ##
-@router.post("/login/")
+@router.post("/login/", tags=["session"])
 def login(user: LoginForm, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.name == user.username).first()
     if db_user is None:
@@ -22,7 +22,7 @@ def login(user: LoginForm, db: Session = Depends(get_db)):
     return {"message": "Login successful", "userId": db_user.id}
 
 
-@router.post("/logout/")
+@router.post("/logout/", tags=["session"])
 def logout():
 
     # TODO

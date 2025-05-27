@@ -6,7 +6,7 @@ from models import Media
 router = APIRouter()
 
 ## GET ##
-@router.get("/media/{mediaId}")
+@router.get("/media/{mediaId}", tags=["media"])
 def get_media(mediaId: int, db: Session = Depends(get_db)):
     media = db.query(Media).filter(Media.mediaId == mediaId).first()
     if media is None:

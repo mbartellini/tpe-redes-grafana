@@ -8,7 +8,7 @@ router = APIRouter()
 
 
 ## GET ##
-@router.get("/reviews/{reviewId}")
+@router.get("/reviews/{reviewId}", tags=["reviews"])
 def get_review(reviewId: int, db: Session = Depends(get_db)):
     review = db.query(Review).filter(Review.id == reviewId).first()
     if review is None:
@@ -17,7 +17,7 @@ def get_review(reviewId: int, db: Session = Depends(get_db)):
 
 
 ## POST ##
-@router.post("/reviews/")
+@router.post("/reviews/", tags=["reviews"])
 def create_review(review: ReviewForm, db: Session = Depends(get_db)):
     db_review = Review(
         userId=review.userId, mediaId=review.mediaId, content=review.content
