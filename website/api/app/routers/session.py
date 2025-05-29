@@ -4,6 +4,7 @@ from schemas.forms import LoginForm
 from models import User
 from sqlalchemy.orm import Session
 from utils import verify_password
+from auth import create_access_token
 
 router = APIRouter()
 
@@ -13,18 +14,12 @@ router = APIRouter()
 def login(user: LoginForm, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.name == user.username).first()
     if db_user is None:
-        raise HTTPException(status_code=400, detail="Invalid username or password1")
+        raise HTTPException(status_code=400, detail="Invalid username or password")
     if not verify_password(user.password, db_user.password):
-        raise HTTPException(status_code=400, detail="Invalid username or password2")
+        raise HTTPException(status_code=400, detail="Invalid username or password")
 
-    # TODO
+    token = create_access_token(data={"sub": db_user.name})
+    return {"access_token": token, "token_type": "bearer", "user_id": db_user.id}
 
-    return {"message": "Login successful", "userId": db_user.id}
 
 
-@router.post("/logout/", tags=["session"])
-def logout():
-
-    # TODO
-
-    return {"message": "Logout successful"}
