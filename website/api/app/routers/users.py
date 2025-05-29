@@ -1,5 +1,5 @@
 from database import get_db
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException,status
 from models import User
 from schemas.forms import CreateUserForm
 from schemas.Out import UserOut
@@ -19,7 +19,7 @@ def get_user(userId: int, db: Session = Depends(get_db)):
 
 
 ## POST ##
-@router.post("/users/", response_model=UserOut, tags=["users"])
+@router.post("/users/", response_model=UserOut, status_code=status.HTTP_201_CREATED, tags=["users"])
 def create_user(user: CreateUserForm, db: Session = Depends(get_db)):
     db_user = User(name=user.username, password=hash_password(user.password))
 

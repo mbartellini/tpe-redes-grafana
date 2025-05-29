@@ -57,6 +57,33 @@ def login():
 
     return render_template("login.html", error=error)
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    error = None
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        password_confirm = request.form['password_confirm']
+
+        if password != password_confirm:
+            error = "Passwords don't match"
+        else:
+            # Enviar la petición a la API para crear usuario
+            response = requests.post(f"{API_URL}/users/", json={
+                "username": username,
+                "password": password
+            })
+            
+            if response.status_code == 201:  
+                return redirect(url_for('login'))
+            else:
+                try:
+                    error = response.json().get('detail', 'Error registering user')
+                except Exception:
+                    error = "Error registering user"
+
+    return render_template('register.html', error=error)
+
 @app.route("/logout")
 def logout():
     session.clear()  
