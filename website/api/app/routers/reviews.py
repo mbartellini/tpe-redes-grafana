@@ -15,6 +15,16 @@ def get_review(reviewId: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Review not found")
     return review
 
+@router.get("/media/{mediaId}/reviews", tags=["reviews"])
+def get_reviews_for_media(mediaId: int, db: Session = Depends(get_db)):
+    media = db.query(Media).filter(Media.mediaId == mediaId).first()
+    if media is None:
+        raise HTTPException(status_code=404, detail="Media not found")
+
+    reviews = db.query(Review).filter(Review.mediaId == mediaId).all()
+    if reviews is None:
+        raise HTTPException(status_code=404, detail="No reviews found for this media")
+    return reviews
 
 ## POST ##
 @router.post("/reviews/", tags=["reviews"])
