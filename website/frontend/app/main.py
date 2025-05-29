@@ -7,9 +7,21 @@ app.secret_key = "mi_clave_super_secreta"
 
 API_URL = "http://api:80"  
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def home():
-    return render_template("home.html")
+    query = request.args.get("q", "").strip()
+    medias = []
+
+    if query:
+        try:
+            response = requests.get(f"{API_URL}/media/search/{query}")
+            response.raise_for_status()
+            medias = response.json()
+        except requests.RequestException as e:
+            print(f"Error fetching media from API: {e}")
+            medias = []
+
+    return render_template("home.html", medias=medias, query=query)
 
 @app.route('/user/<userId>',methods=['GET'])
 def show_user_profile(userId):
@@ -25,7 +37,14 @@ def show_user_profile(userId):
 
 @app.route('/media/<int:media_id>')
 def show_media(media_id):
-    return f'Media {media_id}'
+    try:
+        response = requests.get(f"{API_URL}/media/{media_id}")
+        response.raise_for_status()
+        media = response.json()
+    except requests.RequestException as e:
+        print(f"Error fetching media data: {e}")
+        return "Error fetching media data", 500
+    return render_template("media_details.html", media=media)
 
 
 @app.route("/login", methods=["GET", "POST"])
