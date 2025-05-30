@@ -41,11 +41,32 @@ def show_media(media_id):
         response = requests.get(f"{API_URL}/media/{media_id}")
         response.raise_for_status()
         media = response.json()
+        reviews_response = requests.get(f"{API_URL}/media/{media_id}/reviews")
+        reviews = reviews_response.json() if reviews_response.status_code == 200 else []
+        return render_template("media_details.html", media=media, reviews=reviews)
     except requests.RequestException as e:
         print(f"Error fetching media data: {e}")
         return "Error fetching media data", 500
-    return render_template("media_details.html", media=media)
 
+@app.route('/media/<int:media_id>/reviews', methods=['POST'])
+def add_review(media_id):
+    try:
+        content = request.form.get('content')
+        userId = session.get('user_id')
+
+        review_data = {
+            "userId": userId,
+            "mediaId": media_id,
+            "content": content,
+        }
+        response = requests.post(f"{API_URL}/media/{media_id}/reviews",
+            json=review_data, headers={'Authorization': f'Bearer {session["access_token"]}'})
+        response.raise_for_status()
+        return redirect(url_for('show_media', media_id=media_id))
+
+    except requests.RequestException as e:
+        print(f"Error submitting review: {e}")
+        return redirect(url_for('show_media', media_id=media_id))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

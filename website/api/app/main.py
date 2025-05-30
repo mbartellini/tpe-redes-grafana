@@ -4,7 +4,7 @@ from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from models import Media, User
 from prometheus_fastapi_instrumentator import Instrumentator
-from routers import media, reviews, session, users
+from routers import media, session, users
 from sqlalchemy.orm import Session
 
 Base.metadata.create_all(bind=engine, checkfirst=True)
@@ -31,4 +31,3 @@ def get_current_user(
 app.include_router(users.router)
 app.include_router(media.router)
 app.include_router(session.router)
-app.include_router(reviews.router)
