@@ -60,7 +60,7 @@ def add_review(media_id):
             "content": content,
         }
         response = requests.post(f"{API_URL}/media/{media_id}/reviews",
-            json=review_data, headers={'Authorization': f'Bearer {session["access_token"]}'})
+            json=review_data)
         response.raise_for_status()
         return redirect(url_for('show_media', media_id=media_id))
 

@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
 from database import get_db
-from models import Media, Review
+from models import Media, Review, User
 from schemas.forms import ReviewForm
 
 router = APIRouter()
@@ -35,14 +35,33 @@ def get_review(mediaId: int, reviewId: int, db: Session = Depends(get_db)):
 
 @router.get("/media/{mediaId}/reviews", tags=["media"])
 def get_reviews_for_media(mediaId: int, db: Session = Depends(get_db)):
+
+    # Check if the media exists
     media = db.query(Media).filter(Media.mediaId == mediaId).first()
     if media is None:
         raise HTTPException(status_code=404, detail="Media not found")
 
-    reviews = db.query(Review).filter(Review.mediaId == mediaId).all()
-    if reviews is None:
+    reviews = db.query(
+        Review.reviewId,
+        Review.content,
+        User.name
+    ).join(
+        User, Review.userId == User.id
+    ).filter(
+        Review.mediaId == mediaId
+    ).all()
+
+    if not reviews:
         raise HTTPException(status_code=404, detail="No reviews found for this media")
-    return reviews
+
+    return [
+        {
+            "reviewId": r.reviewId,
+            "content": r.content,
+            "name": r.name,
+        }
+        for r in reviews
+    ]
 
 ## POST ##
 @router.post("/media/{mediaId}/reviews", status_code=status.HTTP_201_CREATED, tags=["media"])
