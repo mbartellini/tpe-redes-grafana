@@ -52,15 +52,15 @@ def show_media(media_id):
 def add_review(media_id):
     try:
         content = request.form.get('content')
-        userId = session.get('user_id')
 
         review_data = {
-            "userId": userId,
-            "mediaId": media_id,
             "content": content,
         }
         response = requests.post(f"{API_URL}/media/{media_id}/reviews",
-            json=review_data)
+            json=review_data,
+            headers={"Authorization": f"Bearer {session.get('access_token')}"}
+        )
+
         response.raise_for_status()
         return redirect(url_for('show_media', media_id=media_id))
 

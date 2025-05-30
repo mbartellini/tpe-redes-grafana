@@ -4,6 +4,7 @@ from sqlalchemy import or_
 from database import get_db
 from models import Media, Review, User
 from schemas.forms import ReviewForm
+from auth import get_current_user
 
 router = APIRouter()
 
@@ -65,24 +66,24 @@ def get_reviews_for_media(mediaId: int, db: Session = Depends(get_db)):
 
 ## POST ##
 @router.post("/media/{mediaId}/reviews", status_code=status.HTTP_201_CREATED, tags=["media"])
-def create_review(review: ReviewForm, db: Session = Depends(get_db)):
+def create_review(mediaId: int ,review: ReviewForm, db: Session = Depends(get_db), current_user: User = Depends(get_current_user) ):
     db_review = Review(
-        userId=review.userId, mediaId=review.mediaId, content=review.content
+        userId=current_user.id, mediaId= mediaId, content=review.content
     )
 
     # Check if the media exists
-    media = db.query(Media).filter(Media.mediaId == review.mediaId).first()
+    media = db.query(Media).filter(Media.mediaId == mediaId).first()
     if media is None:
         raise HTTPException(status_code=404, detail="Media not found")
 
     # Check if the user exists
-    user = db.query(User).filter(User.id == review.userId).first()
+    user = db.query(User).filter(User.id == current_user.id).first()
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
 
     # Check if the user has already reviewed this media
     existing_review = db.query(Review).filter(
-        Review.userId == review.userId, Review.mediaId == review.mediaId
+        Review.userId == current_user.id, Review.mediaId == mediaId
     ).first()
     if existing_review:
         raise HTTPException(status_code=400, detail="User has already reviewed this media")
