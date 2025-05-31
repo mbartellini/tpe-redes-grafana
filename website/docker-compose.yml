@@ -36,6 +36,19 @@ services:
             FLASK_ENV: development
             FLASK_APP: app/main.py
         command: flask run --host=0.0.0.0 --port=3000    
+
+    postgres_exporter:
+        container_name: tpe-redes-postgres-exporter
+        image: prometheuscommunity/postgres-exporter
+        environment:
+        - DATA_SOURCE_NAME=postgresql://postgres:${POSTGRES_PASSWORD}@db:5432/postgres?sslmode=disable
+        ports:
+        - 9187:9187
+        networks:
+        - network
+        depends_on:
+        - db
+        
 volumes:
     pgdata:
 
