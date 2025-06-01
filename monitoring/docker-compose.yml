@@ -7,6 +7,10 @@ services:
         - '2000:3000'
         networks:
             - network
+        volumes:
+            - ./grafana_data/dashboard.yaml:/etc/grafana/provisioning/dashboards/dashboard.yaml
+            - ./grafana_data/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+            - ./grafana_data/dashboards:/var/lib/grafana/dashboards
         
     prometheus:
         image: prom/prometheus
