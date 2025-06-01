@@ -45,7 +45,8 @@ def get_reviews_for_media(mediaId: int, db: Session = Depends(get_db)):
     reviews = db.query(
         Review.reviewId,
         Review.content,
-        User.name
+        User.name,
+        User.id.label("userId")
     ).join(
         User, Review.userId == User.id
     ).filter(
@@ -60,6 +61,7 @@ def get_reviews_for_media(mediaId: int, db: Session = Depends(get_db)):
             "reviewId": r.reviewId,
             "content": r.content,
             "name": r.name,
+            "userId": r.userId
         }
         for r in reviews
     ]
@@ -92,3 +94,49 @@ def create_review(mediaId: int ,review: ReviewForm, db: Session = Depends(get_db
     db.commit()
     db.refresh(db_review)
     return db_review
+
+## PUT ##
+@router.put("/media/{mediaId}/reviews/{reviewId}", status_code=status.HTTP_200_OK, tags=["media"])
+def update_review(mediaId: int, reviewId: int, review: ReviewForm, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    # Check if the media exists
+    media = db.query(Media).filter(Media.mediaId == mediaId).first()
+    if media is None:
+        raise HTTPException(status_code=404, detail="Media not found")
+    
+    # Check if the review exists
+    review_to_update = db.query(Review).filter(Review.reviewId == reviewId).first()
+    if review_to_update is None:
+        raise HTTPException(status_code=404, detail="Review not found")
+    
+    # Check if the current user is the owner of the review
+    if review_to_update.userId != current_user.id:
+        raise HTTPException(status_code=403, detail="You do not have permission to update this review")
+    
+    # Update the review content
+    review_to_update.content = review.content
+    db.commit()
+    db.refresh(review_to_update)
+    return review_to_update
+
+
+
+## DELETE ##
+@router.delete("/media/{mediaId}/reviews/{reviewId}", status_code=status.HTTP_204_NO_CONTENT, tags=["media"])
+def delete_review(mediaId: int, reviewId: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    # Check if the media exists
+    media = db.query(Media).filter(Media.mediaId == mediaId).first()
+    if media is None:
+        raise HTTPException(status_code=404, detail="Media not found")
+    
+    # Check if the review exists
+    review = db.query(Review).filter(Review.reviewId == reviewId).first()
+    if review is None:
+        raise HTTPException(status_code=404, detail="Review not found")
+    
+    # Check if the current user is the owner of the review
+    if review.userId != current_user.id:
+        raise HTTPException(status_code=403, detail="You do not have permission to delete this review")
+    
+    db.delete(review)
+    db.commit()
+    return {"detail": "Review deleted successfully"}
