@@ -194,13 +194,31 @@
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "sum by(job) (pg_database_size_bytes)",
+          "expr": "pg_database_size_bytes{datname=\"postgres\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
           "refId": "A",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "benoer7qz6scga"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "exemplar": false,
+          "expr": "predict_linear(pg_database_size_bytes{datname=\"postgres\"}[5m], 5*60) + 0",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "Prediction",
+          "range": true,
+          "refId": "B",
           "useBackend": false
         }
       ],
