@@ -2,7 +2,7 @@
 
 echo "Creating users..."
 
-for i in $(seq 1 1000);
+for i in $(seq 1 $1);
 do
   curl -X 'POST' \
     'http://localhost/users/' \
