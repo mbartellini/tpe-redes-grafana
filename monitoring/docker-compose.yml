@@ -16,8 +16,7 @@ services:
             - GF_SMTP_FROM_NAME=grafana
             - GF_SMTP_FROM_ADDRESS=grafana.redes.itba@gmail.com
         volumes:
-            - ./grafana_data/dashboard.yaml:/etc/grafana/provisioning/dashboards/dashboard.yaml
-            - ./grafana_data/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+            - ./grafana_data/provisioning:/etc/grafana/provisioning
             - ./grafana_data/dashboards:/var/lib/grafana/dashboards
         
     prometheus:
