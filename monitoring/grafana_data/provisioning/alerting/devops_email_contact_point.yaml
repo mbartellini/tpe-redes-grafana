@@ -1,0 +1,11 @@
+apiVersion: 1
+contactPoints:
+    - orgId: 1
+      name: Devops email contact point
+      receivers:
+        - uid: aeogg7tttmgw0a
+          type: email
+          settings:
+            addresses: mbartellini+devops@itba.edu.ar
+            singleEmail: false
+          disableResolveMessage: false

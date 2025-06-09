@@ -1,0 +1,62 @@
+apiVersion: 1
+groups:
+    - orgId: 1
+      name: 10s evaluation group
+      folder: Website
+      interval: 10s
+      rules:
+        - uid: ceogiy0n2ij9cf
+          title: Website down
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: benoer7qz6scga
+              model:
+                disableTextWrap: false
+                editorMode: builder
+                expr: up{job="fastapi-app"}
+                fullMetaSearch: false
+                includeNullMetadata: true
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+                useBackend: false
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 1
+                        type: ne
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: NoData
+          execErrState: Error
+          for: 30s
+          annotations:
+            summary: La página está caída.
+          isPaused: false
+          notification_settings:
+            receiver: Devops email contact point
