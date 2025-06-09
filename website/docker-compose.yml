@@ -51,6 +51,11 @@ services:
         
 volumes:
     pgdata:
+        driver: local
+        driver_opts:
+            o: "size=50m"
+            device: tmpfs
+            type: tmpfs
 
 networks:
     network:
