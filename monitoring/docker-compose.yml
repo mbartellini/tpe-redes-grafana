@@ -7,6 +7,14 @@ services:
         - '2000:3000'
         networks:
             - network
+        environment:
+            - GF_SMTP_ENABLED=true
+            - GF_SMTP_HOST=smtp.gmail.com:587
+            - GF_SMTP_USER=grafana.redes.itba@gmail.com
+            - GF_SMTP_PASSWORD=$GF_SMTP_PASSWORD
+            - GF_SMTP_SKIP_VERIFY=false
+            - GF_SMTP_FROM_NAME=grafana
+            - GF_SMTP_FROM_ADDRESS=grafana.redes.itba@gmail.com
         volumes:
             - ./grafana_data/dashboard.yaml:/etc/grafana/provisioning/dashboards/dashboard.yaml
             - ./grafana_data/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
