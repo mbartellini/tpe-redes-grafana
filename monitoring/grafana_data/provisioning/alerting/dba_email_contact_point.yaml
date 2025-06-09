@@ -1,0 +1,11 @@
+apiVersion: 1
+contactPoints:
+    - orgId: 1
+      name: DBA email contact point
+      receivers:
+        - uid: aeogxejhwewhsf
+          type: email
+          settings:
+            addresses: mbartellini+dba@itba.edu.ar
+            singleEmail: false
+          disableResolveMessage: false
