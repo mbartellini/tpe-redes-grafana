@@ -40,3 +40,4 @@ sqlalchemy==2.0.30
 psycopg2-binary==2.9.9
 passlib==1.7.4 
 python-jose==3.5.0
+pytz==2025.2
