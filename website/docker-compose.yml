@@ -84,7 +84,7 @@ volumes:
     pgdata:
         driver: local
         driver_opts:
-            o: "size=30m"
+            o: "size=512m"
             device: tmpfs
             type: tmpfs
 
