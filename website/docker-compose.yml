@@ -35,7 +35,20 @@ services:
         environment:
             FLASK_ENV: development
             FLASK_APP: app/main.py
-        command: flask run --host=0.0.0.0 --port=3000    
+        command: flask run --host=0.0.0.0 --port=3000
+
+    node_exporter:
+        image: quay.io/prometheus/node-exporter:latest
+        container_name: node_exporter
+        ports:
+            - 9100:9100
+        volumes:
+            - /:/host:ro
+        command: --path.rootfs=/host
+        restart: unless-stopped
+        networks:
+            - network
+
 
     postgres_exporter:
         container_name: tpe-redes-postgres-exporter
