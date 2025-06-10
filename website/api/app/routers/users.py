@@ -5,6 +5,7 @@ from schemas.forms import CreateUserForm
 from schemas.Out import UserOut
 from sqlalchemy.orm import Session
 from utils import hash_password
+from logger import logger
 
 router = APIRouter()
 
@@ -30,4 +31,5 @@ def create_user(user: CreateUserForm, db: Session = Depends(get_db)):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+    logger.info(f"User created: {db_user.name}", extra={"user_id": db_user.id})
     return db_user

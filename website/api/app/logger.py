@@ -13,9 +13,15 @@ class JSONFormatter(logging.Formatter):
         log_record = {
             "timestamp": timestamp,
             "level": record.levelname,
-            "event": record.msg,
-            "user_id": getattr(record, "user_id", None)
+            "event": record.msg
         }
+
+        optional_fields = ["user_id", "review_id", "media_id"]
+        for field in optional_fields:
+            value = getattr(record, field, None)
+            if value is not None:
+                log_record[field] = value
+
         return json.dumps(log_record)
 
 logger = logging.getLogger("app_logger")

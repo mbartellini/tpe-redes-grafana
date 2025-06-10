@@ -23,7 +23,7 @@ def search_media_by_name(mediaName: str, search: SearchForm, db: Session = Depen
     if not media_list:
         raise HTTPException(status_code=404, detail="No media found matching the name")
     if(search.userId is not None):
-        logger.info(f"user {search.userId} searched {mediaName}", extra={"user_id": search.userId})
+        logger.info(f"user {search.userId} searched '{mediaName}'", extra={"user_id": search.userId})
     return media_list
 
 ## GET ##
@@ -97,7 +97,7 @@ def create_review(mediaId: int ,review: ReviewForm, db: Session = Depends(get_db
     db.commit()
     db.refresh(db_review)
 
-    logger.info(f"user {current_user.id} made a review on {mediaId}", extra={"user_id": current_user.id})
+    logger.info(f"user {current_user.id} made a review on media with id: '{mediaId}'", extra={"user_id": current_user.id, "media_id": mediaId})
 
     return db_review
 
@@ -122,6 +122,7 @@ def update_review(mediaId: int, reviewId: int, review: ReviewForm, db: Session =
     review_to_update.content = review.content
     db.commit()
     db.refresh(review_to_update)
+    logger.info(f"user {current_user.id} updated review with id:'{review_to_update.reviewId}", extra={"user_id": current_user.id, "review_id": review_to_update.reviewId})
     return review_to_update
 
 
@@ -145,4 +146,5 @@ def delete_review(mediaId: int, reviewId: int, db: Session = Depends(get_db), cu
     
     db.delete(review)
     db.commit()
+    logger.info(f"user {current_user.id} deleted review with id:'{review.reviewId}", extra={"user_id": current_user.id, "review_id": review.reviewId})
     return {"detail": "Review deleted successfully"}
