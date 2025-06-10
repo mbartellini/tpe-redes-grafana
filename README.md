@@ -2,7 +2,7 @@
 ## Integrantes
 - Mateo Bartellini Huapalla - Legajo 61438
 - Bautista Ignacio Canevaro - Legajo 62179
-- Matias Wodtke - 62098
+- Matias Wodtke - Legajo 62098
 
 
 ## Introducción
