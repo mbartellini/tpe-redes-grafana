@@ -3,8 +3,9 @@ from sqlalchemy.orm import Session
 from sqlalchemy import or_
 from database import get_db
 from models import Media, Review, User
-from schemas.forms import ReviewForm
+from schemas.forms import ReviewForm, SearchForm
 from auth import get_current_user
+from logger import logger
 
 router = APIRouter()
 
@@ -17,10 +18,12 @@ def get_media(mediaId: int, db: Session = Depends(get_db)):
     return media
 
 @router.get("/media/search/{mediaName}", tags=["media"])
-def search_media_by_name(mediaName: str, db: Session = Depends(get_db)):
+def search_media_by_name(mediaName: str, search: SearchForm, db: Session = Depends(get_db)):
     media_list = db.query(Media).filter(Media.name.ilike(f"%{mediaName}%")).all()
     if not media_list:
         raise HTTPException(status_code=404, detail="No media found matching the name")
+    if(search.userId is not None):
+        logger.info(f"user {search.userId} searched {mediaName}", extra={"user_id": search.userId})
     return media_list
 
 ## GET ##
@@ -93,6 +96,9 @@ def create_review(mediaId: int ,review: ReviewForm, db: Session = Depends(get_db
     db.add(db_review)
     db.commit()
     db.refresh(db_review)
+
+    logger.info(f"user {current_user.id} made a review on {mediaId}", extra={"user_id": current_user.id})
+
     return db_review
 
 ## PUT ##

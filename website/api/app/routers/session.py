@@ -5,9 +5,9 @@ from models import User
 from sqlalchemy.orm import Session
 from utils import verify_password
 from auth import create_access_token
+from logger import logger
 
 router = APIRouter()
-
 
 ## POST ##
 @router.post("/login/", tags=["session"])
@@ -19,6 +19,7 @@ def login(user: LoginForm, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Invalid username or password")
 
     token = create_access_token(data={"sub": db_user.name})
+    logger.info(f"user {db_user.id} logged in", extra={"user_id": db_user.id})
     return {"access_token": token, "token_type": "bearer", "user_id": db_user.id}
 
 

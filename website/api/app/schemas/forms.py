@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel, Field
 
 # "..." means "not null" 
@@ -16,3 +17,6 @@ class LoginForm(BaseModel):
 ## REVIEWS ##
 class ReviewForm(BaseModel):
     content: str = Field(..., min_length=1, max_length=500)
+
+class SearchForm(BaseModel):
+    userId: Optional[int] = Field(default=None)

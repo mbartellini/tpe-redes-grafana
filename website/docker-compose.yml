@@ -10,6 +10,8 @@ services:
             - network
         environment:
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        volumes:
+            - ./logs:/logs
     db:
         container_name: tpe-redes-db
         image: postgres
@@ -61,7 +63,19 @@ services:
         - network
         depends_on:
         - db
-        
+
+    promtail:
+        image: grafana/promtail:latest
+        container_name: promtail
+        volumes:
+            - ./logs:/logs:ro
+            - /etc/machine-id:/etc/machine-id
+            - ./promtail-config.yml:/etc/promtail/promtail-config.yml
+        command: -config.file=/etc/promtail/promtail-config.yml
+        networks:
+            - network
+
+
 volumes:
     pgdata:
         driver: local

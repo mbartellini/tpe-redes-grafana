@@ -15,7 +15,9 @@ def home():
 
     if query:
         try:
-            response = requests.get(f"{API_URL}/media/search/{query}")
+            user_id = session.get("user_id", None)
+            search_data = {"userId": user_id}
+            response = requests.get(f"{API_URL}/media/search/{query}",json=search_data)
             response.raise_for_status()
             medias = response.json()
         except requests.RequestException as e:
