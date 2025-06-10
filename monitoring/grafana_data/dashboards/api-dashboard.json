@@ -381,7 +381,7 @@
         "showHeader": true,
         "sortBy": [
           {
-            "desc": false,
+            "desc": true,
             "displayName": "timestamp"
           }
         ]
@@ -627,5 +627,5 @@
   "timezone": "browser",
   "title": "API Dashboard",
   "uid": "2951b8fc-6729-4c37-9b27-5c190e71410d",
-  "version": 2
+  "version": 7
 }
