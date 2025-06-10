@@ -17,7 +17,7 @@ datasources:
     httpMethod: POST
     readOnly: false
   - name: loki
-    uid:eeok6a4oi1e68f
+    uid: eeok6a4oi1e68f
     orgId:	1
     type:	loki
     typeName:	Loki
