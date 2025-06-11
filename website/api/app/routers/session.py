@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from utils import verify_password
 from auth import create_access_token
 from logger import logger
+import time
 
 router = APIRouter()
 
@@ -22,5 +23,9 @@ def login(user: LoginForm, db: Session = Depends(get_db)):
     logger.info(f"user {db_user.id} logged in", extra={"user_id": db_user.id})
     return {"access_token": token, "token_type": "bearer", "user_id": db_user.id}
 
+@router.get("/wait", tags=["utils"])
+def wait():
+    time.sleep(5)
+    return "Slept 5 seconds"
 
 
