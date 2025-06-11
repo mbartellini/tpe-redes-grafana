@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 6,
   "links": [],
   "panels": [
     {
@@ -103,7 +103,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.1",
       "targets": [
         {
           "datasource": {
@@ -205,7 +205,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.1",
       "targets": [
         {
           "disableTextWrap": false,
@@ -290,7 +290,7 @@
           }
         ]
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.1",
       "targets": [
         {
           "datasource": {
@@ -298,8 +298,8 @@
             "uid": "eeok6a4oi1e68f"
           },
           "direction": "backward",
-          "editorMode": "code",
-          "expr": "{filename=\"/logs/api-logs.log\"} | json | user_id == 1",
+          "editorMode": "builder",
+          "expr": "{filename=\"/logs/api-logs.log\"} | json",
           "queryType": "range",
           "refId": "A"
         }
@@ -396,7 +396,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.1",
       "targets": [
         {
           "disableTextWrap": false,
@@ -492,7 +492,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.1",
       "targets": [
         {
           "disableTextWrap": false,
@@ -588,7 +588,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.0.0",
+      "pluginVersion": "12.0.1",
       "targets": [
         {
           "datasource": {
@@ -627,5 +627,5 @@
   "timezone": "browser",
   "title": "API Dashboard",
   "uid": "2951b8fc-6729-4c37-9b27-5c190e71410d",
-  "version": 1
+  "version": 2
 }
