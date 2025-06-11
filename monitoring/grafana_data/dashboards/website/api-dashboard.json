@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 4,
   "links": [],
   "panels": [
     {
@@ -81,7 +81,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 7,
+        "w": 12,
         "x": 0,
         "y": 0
       },
@@ -103,7 +103,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.0.1",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "datasource": {
@@ -188,10 +188,10 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 7,
+        "x": 12,
         "y": 0
       },
-      "id": 5,
+      "id": 2,
       "options": {
         "legend": {
           "calcs": [],
@@ -205,108 +205,12 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.0.1",
-      "targets": [
-        {
-          "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "node_netstat_Tcp_CurrEstab",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A",
-          "useBackend": false
-        }
-      ],
-      "title": "Total Active TCP Connections",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "benoer7qz6scga"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 8
-      },
-      "id": 3,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "12.0.1",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by(status) (rate(http_requests_total[$__rate_interval]))",
+          "expr": "rate(process_cpu_seconds_total[5m])",
           "fullMetaSearch": false,
           "includeNullMetadata": false,
           "legendFormat": "__auto",
@@ -315,7 +219,7 @@
           "useBackend": false
         }
       ],
-      "title": "API Requests",
+      "title": "API CPU Usage",
       "type": "timeseries"
     },
     {
@@ -364,7 +268,7 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 12,
+        "x": 0,
         "y": 8
       },
       "id": 6,
@@ -386,7 +290,7 @@
           }
         ]
       },
-      "pluginVersion": "12.0.1",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "datasource": {
@@ -475,10 +379,10 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 0,
-        "y": 16
+        "x": 12,
+        "y": 8
       },
-      "id": 4,
+      "id": 3,
       "options": {
         "legend": {
           "calcs": [],
@@ -492,27 +396,21 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.0.1",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "feni8uexym6f4e"
-          },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "rate(http_request_duration_seconds_bucket[$__rate_interval])",
+          "editorMode": "code",
+          "expr": "sum by(status) (rate(http_requests_total[$__rate_interval]))",
           "fullMetaSearch": false,
-          "hide": false,
           "includeNullMetadata": false,
-          "instant": false,
           "legendFormat": "__auto",
           "range": true,
           "refId": "A",
           "useBackend": false
         }
       ],
-      "title": "API Request Duration [WIP]",
+      "title": "API Requests",
       "type": "timeseries"
     },
     {
@@ -576,11 +474,11 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 11,
-        "x": 12,
+        "w": 12,
+        "x": 0,
         "y": 16
       },
-      "id": 2,
+      "id": 5,
       "options": {
         "legend": {
           "calcs": [],
@@ -594,21 +492,123 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.0.1",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "rate(process_cpu_seconds_total[5m])",
+          "editorMode": "builder",
+          "expr": "node_netstat_Tcp_CurrEstab",
           "fullMetaSearch": false,
-          "includeNullMetadata": false,
+          "includeNullMetadata": true,
           "legendFormat": "__auto",
           "range": true,
           "refId": "A",
           "useBackend": false
         }
       ],
-      "title": "API CPU Usage",
+      "title": "Total Active TCP Connections",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "benoer7qz6scga"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "feni8uexym6f4e"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "rate(http_request_duration_seconds_sum[$__rate_interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "API Request Duration",
       "type": "timeseries"
     }
   ],
@@ -627,5 +627,5 @@
   "timezone": "browser",
   "title": "API Dashboard",
   "uid": "2951b8fc-6729-4c37-9b27-5c190e71410d",
-  "version": 7
+  "version": 1
 }
