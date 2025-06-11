@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
+  "id": 3,
   "links": [],
   "panels": [
     {
@@ -161,8 +161,8 @@
       "targets": [
         {
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "sum(pg_database_size_bytes) / (30 * 1024 * 1024)",
+          "editorMode": "code",
+          "expr": "sum(pg_database_size_bytes) / (32 * 1024 * 1024)",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "__auto",
@@ -333,5 +333,5 @@
   "timezone": "browser",
   "title": "DB Dashboard",
   "uid": "e327edc2-9e66-4a71-b3e0-6124d40446f7",
-  "version": 2
+  "version": 1
 }
