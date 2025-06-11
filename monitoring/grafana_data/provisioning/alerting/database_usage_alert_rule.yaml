@@ -17,7 +17,7 @@ groups:
               model:
                 disableTextWrap: false
                 editorMode: builder
-                expr: sum(pg_database_size_bytes) / (30 * 1024 * 1024)
+                expr: sum(pg_database_size_bytes) / (32 * 1024 * 1024)
                 fullMetaSearch: false
                 includeNullMetadata: true
                 instant: true
